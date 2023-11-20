@@ -24,13 +24,16 @@ func ParseComparatorSet(s string)(rs ComparatorSet, err error){
 			return
 		}
 		s0 := s[0]
-		if len(s) > 2 && s0 == '|' && s[1] == '|' {
+		if len(s) >= 2 && s0 == '|' && s[1] == '|' {
+			s = s[2:]
 			rs = append(rs, l)
 			l = make(ComparatorList, 0, 3)
 			continue
 		}else if '0' <= s0 && s0 <= '9' || s0 == '*' || s0 == 'x' || s0 == 'X' {
 			var v Version
-			if v, s, err = parseRemain(s); err != nil {
+			var s2 string
+			s2, s = split(s, ' ')
+			if v, err = Parse(s2); err != nil {
 				return
 			}
 			s = strings.TrimSpace(s)
@@ -43,7 +46,9 @@ func ParseComparatorSet(s string)(rs ComparatorSet, err error){
 				r := &Range{
 					Min: v,
 				}
-				if r.Max, s, err = parseRemain(s); err != nil {
+				var s2 string
+				s2, s = split(s, ' ')
+				if r.Max, err = Parse(s2); err != nil {
 					return
 				}
 				l = append(l, r)
@@ -103,7 +108,9 @@ func ParseComparatorSet(s string)(rs ComparatorSet, err error){
 			err = io.EOF
 			return
 		}
-		if r.Version, s, err = parseRemain(s); err != nil {
+		var s2 string
+		s2, s = split(s, ' ')
+		if r.Version, err = Parse(s2); err != nil {
 			return
 		}
 		l = append(l, &r)

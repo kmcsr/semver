@@ -21,9 +21,9 @@ var Nil = Version{
 	Patch: -1,
 }
 
-func parseRemain(s string)(v Version, remain string, err error){
+func Parse(s string)(v Version, err error){
 	if s == "" {
-		return Nil, "", nil
+		return Nil, nil
 	}
 	s, v.Build = split(s, '+')
 	s, v.Pre = split(s, '-')
@@ -52,14 +52,6 @@ func parseRemain(s string)(v Version, remain string, err error){
 				}
 			}
 		}
-	}
-	remain = s
-	return
-}
-
-func Parse(s string)(v Version, err error){
-	if v, s, err = parseRemain(s); err != nil {
-		return
 	}
 	if len(s) > 0 {
 		err = errors.New("Unexpected character " + strconv.QuoteRune((rune)(s[0])))
