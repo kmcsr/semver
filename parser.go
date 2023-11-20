@@ -26,6 +26,10 @@ func ParseComparatorSet(s string)(rs ComparatorSet, err error){
 		s0 := s[0]
 		if len(s) >= 2 && s0 == '|' && s[1] == '|' {
 			s = s[2:]
+			if len(l) == 0 {
+				err = fmt.Errorf("No expr on the left")
+				return
+			}
 			rs = append(rs, l)
 			l = make(ComparatorList, 0, 3)
 			continue

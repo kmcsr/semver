@@ -15,7 +15,8 @@ func TestParseComparator(t *testing.T){
 	data := []T{
 		{"1.2.3", false},
 		{"=1.2.3", false},
-		{"==1.2.3", false},
+		{"==1.2.3", false}
+		{"== 1.2.3", false},,
 		{"!1.2.3", false},
 		{"!=1.2.3", false},
 		{"<1.2.3", false},
@@ -27,6 +28,9 @@ func TestParseComparator(t *testing.T){
 		{"1.2.3 ||", true},
 		{"1.2.3 || ", true},
 		{"1.2.3 || 2", false},
+		{"1.2.3 || || 2", true},
+		{"|| 1.2.3", true},
+		{"* || 1.2.3", false},
 	}
 	for _, d := range data {
 		v, e := ParseComparatorSet(d.S)
