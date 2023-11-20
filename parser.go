@@ -33,7 +33,7 @@ func ParseComparatorSet(s string)(rs ComparatorSet, err error){
 			rs = append(rs, l)
 			l = make(ComparatorList, 0, 3)
 			continue
-		}else if '0' <= s0 && s0 <= '9' || s0 == '*' || s0 == 'x' || s0 == 'X' {
+		}else if '0' <= s0 && s0 <= '9' || s0 == '*' || s0 == 'x' || s0 == 'X' || s0 == 'v' || s0 == 'V' {
 			var v Version
 			var s2 string
 			s2, s = split(s, ' ')

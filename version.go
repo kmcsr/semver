@@ -22,7 +22,10 @@ var Nil = Version{
 }
 
 func Parse(s string)(v Version, err error){
-	if s == "" {
+	if len(s) > 0 && (s[0] == 'v' || s[0] == 'V') {
+		s = s[1:]
+	}
+	if len(s) == 0 {
 		return Nil, nil
 	}
 	s, v.Build = split(s, '+')
