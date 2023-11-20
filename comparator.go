@@ -146,19 +146,20 @@ func (r *Requirement)Contains(v Version)(bool){
 	case GE:
 		return n >= 0
 	case EX:
+		if n < 0 {
+			return false
+		}
 		if r.Version.Major < 0 {
 			return true
 		}
 		if r.Version.Major == 0 {
-			if v.Major != 0 {
-				return false
-			}
-			return r.Version.Minor < 0 || r.Version.Minor == v.Minor
+			return v.Major == 0 && (r.Version.Minor < 0 || r.Version.Minor == v.Minor)
 		}
 		return r.Version.Major == v.Major
 	case TD:
-		return r.Version.Major < 0 || r.Version.Major == v.Major && (
-			r.Version.Minor < 0 || r.Version.Minor == v.Minor)
+		return n >= 0 && (
+			r.Version.Major < 0 || r.Version.Major == v.Major && (
+				r.Version.Minor < 0 || r.Version.Minor == v.Minor))
 	default:
 		panic("Unknown cond")
 	}
